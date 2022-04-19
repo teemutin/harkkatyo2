@@ -1,35 +1,35 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
-#include <fcntl.h>
 
-#define BUFFER_SIZE 50
 
 int main(int argc, char **argv){
-  int   file;
-  char  buffer[BUFFER_SIZE];
-  int   read_size;
-  int   i=1;
+    FILE *file;
+    char  buffer;
+    int   i=1;
 
 //Test there is an input
 if (argc < 2){
-    fprintf(stderr, "Error: usage: ./cat filename\n");
-    return (-1);
+    return (0);
     }
 //Loop through all the given arguments, as input files
 while(argv[i] != NULL) {
     //Open and test the file opened correctly
-    file = open(argv[i], O_RDONLY);
-    if (file == -1){
-        fprintf(stderr, "Error: %s: file not found\n", argv[1]);
-        return (-1);
-        }
-    while ((read_size = read(file, buffer, BUFFER_SIZE)) > 0)
-        write(1, &buffer, read_size);
-
-    close(file);
+    file = fopen(argv[i], "r");
+    if (file == NULL){
+        fprintf(stderr, "my-cat: cannot open file\n");
+        exit(1);
+    }
+    //Go through the file till end of file is reached, and print
+    while((buffer=fgetc(file))!=EOF) {
+        printf("%c",buffer);
+    }
+    
+    //close file and get next argument in loop
+    fclose(file);
     i++;
     
 }
+exit(0);
 
 }
