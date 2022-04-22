@@ -1,3 +1,4 @@
+//TE
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -15,9 +16,10 @@ if (argc < 2){
     }
 //If only pattern provided    
 if (argc == 2) {
-    printf("Vain patterni annettu\n");
+    printf("Only pattern given\n");
     strcpy(pattern,argv[1]);
-    printf("Anna teksti josta etsiä : ");
+    //Ask for text and try to match the pattern, if matched, print
+    printf("Give text to match the pattern: ");
     fgets(string1,2000, stdin);
     if(strstr(string1,pattern))
         printf("%s",string1);
