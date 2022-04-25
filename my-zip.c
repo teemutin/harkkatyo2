@@ -12,74 +12,51 @@ typedef struct {
     int b;
 } DataStruct;
 
+//Go through the given string, and find occurances of characters and their number and store it to datastruct and 
+//fwrite it to a file to zip
 char* encode(char* src) {
-    //FILE *file2;
-    int rLen;
+    int StrLen;
     char count[MAX_RLEN];
     char character1[100];
     int len = strlen(src);
-    //file2 = fopen("testifilu.bin", "wb");
  
-    /* If all characters in the source string are different,
-    then size of destination string would be twice of input string.
-    For example if the src is "abcd", then dest would be "a1b1c1d1"
-    For other inputs, size would be less than twice.  */
-    char* dest = (char*)malloc(sizeof(char) * (len * 2 + 1));
+    char* result = (char*)malloc(sizeof(char) * (len * 2 + 1));
  
     int i, j = 0, k;
  
-    /* traverse the input string one by one */
+    /* move in iput one by one*/
     for (i = 0; i < len; i++) {
  
-        /* Copy the first occurrence of the new character */
-        dest[j++] = src[i];
-
-        //printf("Kirjain on %c\n",src[i]);
+        /* Copy the character */
+        result[j++] = src[i];
  
         /* Count the number of occurrences of the new character */
-        rLen = 1;
+        StrLen = 1;
         while (i + 1 < len && src[i] == src[i + 1]) {
-            rLen++;
+            StrLen++;
             i++;
         }
-        //printf("Kirjaimen määrä on %d\n",rLen);
- 
-        /* Store rLen in a character array count[] */
-        //printf("Eli koko kombinaatio on %d%c\n",rLen,src[i]);
-        //sprintf(character1,"%c",src[i]);
-        //printf("Ja stringi on %d\n",character1);
+        sprintf(character1,"%c",src[i]);
         DataStruct ds;
-        //strcpy(ds.a,src[i]);
-        //strcpy(ds.a,&src);
-        //printf("%d",rLen);
         ds.a = character1;
-        ds.b = rLen;
-        //strncpy(ds.a,src[i],100);
-        //ds.a = "B";
-        //ds.b = rLen;
+        ds.b = StrLen;
         fwrite(&ds, sizeof(DataStruct), 1, stdout);
-        //size_t element_size = sizeof src;
-        //size_t elements_to_write = sizeof src;
 
-
-        //fwrite(src,element_size,elements_to_write,stdout);
-        //printf("kombinaatio on %d %c\n",ds.b,ds.a);
-        //fwrite(&src[i], sizeof(src[i]), 1, stdout);
-        //fprintf(stdout, "%c", src[i]);
-
-        //sprintf(count, "%d", rLen);
-
+ 
+        /* Copy the count[] to resultination */
+        for (k = 0; *(count + k); k++, j++) {
+            result[j] = count[k];
+        }
     }
  
-    /*free destination*/
-    dest[j] = '\0';
-    return dest;
+    /*free resultination*/
+    result[j] = '\0';
+    return result;
 }
 
 
 int main(int argc, char **argv){
     FILE *file;
-    int   len;
     int i=1;
     char string1[2000];
     //Test there is an input
@@ -96,8 +73,7 @@ int main(int argc, char **argv){
         //printf("Fileopened filename %s",argv[i]);
         while(!feof(file)) {
             fgets(string1,2000,file);
-            char* thinhy = encode(string1);
-            printf("%s",thinhy);
+            encode(string1);
 
         }
 
